@@ -27,7 +27,8 @@ markup(:wikicloth, /mediawiki|wiki/) do |content|
 end
 
 markup(:asciidoctor, /adoc|asc(iidoc)?/) do |content|
-  Asciidoctor.render(content, :safe => :secure, :attributes => %w(showtitle idprefix idseparator=- env=github env-github source-highlighter=html-pipeline))
+  Asciidoctor::Compliance.unique_id_start_index = 1
+  Asciidoctor.convert(content, :safe => :secure, :attributes => %w(showtitle=@ idprefix idseparator=- env=github env-github source-highlighter=html-pipeline))
 end
 
 command("python2 -S #{Shellwords.escape(File.dirname(__FILE__))}/commands/rest2html", /re?st(\.txt)?/)
